@@ -1,37 +1,11 @@
-## Welcome to GitHub Pages
+## Installation
+Pour utiliser le programme il faut aller télécharger le .jar ou le .exe sur [la page des releases](https://github.com/M4TH1EU/Flan-s-Mod-Updater/releases).
+Une fois téléchargé, ouvrez le programme, vous allez voir une fenêtre semblable s'ouvir.
 
-You can use the [editor on GitHub](https://github.com/M4TH1EU/Flan-s-Mod-Updater/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+![App](https://i.imgur.com/pqFvBVu.png)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Pour mettre à jour votre pack il suffit de cliquer sur le bouton "Choisir un pack", l'explorateur de fichier va s'ouvir et vous pourrez séléctionner votre pack **en format .zip !** *(si votre pack est en .jar, .rar ou autre renommez le tout simplement avec le .zip)*
 
-### Markdown
+Séléctionner votre pack et cliquer sur "Ouvrir", la fenêtre se fermera et vous n'aurez plus qu'a cliquer sur "Mettre à jour mon pack".
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/M4TH1EU/Flan-s-Mod-Updater/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Dès que la mise à jour sera terminée, un pop-up va s'afficher et vous pourrez allez chercher votre pack.
