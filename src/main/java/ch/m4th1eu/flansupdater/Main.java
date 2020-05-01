@@ -1,32 +1,51 @@
 package ch.m4th1eu.flansupdater;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
+import org.zeroturnaround.zip.ZipUtil;
 
-import java.io.IOException;
+import java.io.File;
+import java.nio.file.Paths;
 
-public class Main extends Application {
-    public static Stage primaryStage = null;
+public class Main {
+    public static final String PACK_PATH = "C:\\Users\\Mathieu\\Downloads\\Altis Mine Pack\\";
+    public static final String NEWPACK_PATH = "C:\\Users\\Mathieu\\Downloads\\Altis Mine Pack NEW\\";
+
+    public static final String VEHICLES_PATH = PACK_PATH + "vehicles\\";
+    public static final String VEHICLES_NEWPATH = NEWPACK_PATH + "vehicles\\";
+
+    public static final String ARMOR_PATH = PACK_PATH + "armorFiles\\";
+    public static final String ARMOR_NEWPATH = NEWPACK_PATH + "armorFiles\\";
+
+    public static final String ARMOR_TEXTURES_PATH = PACK_PATH + "assets\\flansmod\\armor\\";
+    public static final String ARMOR_TEXTURES_NEWPATH = NEWPACK_PATH + "assets\\flansmod\\armor\\";
+
+    public static final String VEHICLESSKINS_PATH = PACK_PATH + "assets\\flansmod\\skins\\";
+    public static final String VEHICLESSKINS_NEWPATH = NEWPACK_PATH + "assets\\flansmod\\skins\\";
+
+    public static final String JSON_PATH = NEWPACK_PATH + "assets\\flansmod\\models\\item\\";
+
+    public static final String LANG_NEWPATH = NEWPACK_PATH + "assets\\flansmod\\lang\\";
+
+    public static final String MODELS_PATH = PACK_PATH + "com\\";
+    public static final String MODELS_NEWPATH = NEWPACK_PATH + "com\\";
+
+    public static final String ICONS_PATH = PACK_PATH + "assets\\flansmod\\textures\\items\\";
+    public static final String ICONS_NEWPATH = NEWPACK_PATH + "assets\\flansmod\\textures\\items\\";
+
+    private static final Main INSTANCE = new Main();
 
     public static void main(String[] args) {
-        launch(args);
+        FileUtils.copyModels();
+        VehiclesUtils.readAllVehiclesFiles();
+        VehiclesUtils.readAllVehiclesSkins();
+        ArmorUtils.readAllArmorsFiles();
+        ArmorUtils.readAllArmorsTextures();
+        FileUtils.readAllIcons();
+        FileUtils.createPackInfo();
+        FileUtils.writeLangs(FileUtils.langs);
+
+        ZipUtil.pack(new File(NEWPACK_PATH), new File(Paths.get(NEWPACK_PATH).getParent() + "\\" + Paths.get(NEWPACK_PATH).getFileName() + ".zip"));
+        Logger.info("Update complete.");
     }
 
-    @Override
-    public void start(Stage primaryStage) throws IOException {
 
-
-        Parent root = FXMLLoader.load(Updater.class.getResource("/menu.fxml"));
-
-        Main.primaryStage = primaryStage;
-        Main.primaryStage.setTitle("Flans Updater");
-        Main.primaryStage.setResizable(false);
-        Main.primaryStage.setScene(new Scene(root, 625, 365));
-        Main.primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/icon.png")));
-        Main.primaryStage.show();
-    }
 }
