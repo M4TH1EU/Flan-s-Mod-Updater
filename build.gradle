@@ -24,3 +24,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'org.zeroturnaround:zt-zip:1.14'
 }
+
+jar {
+    manifest {
+        attributes(
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' '))
+    }
+}

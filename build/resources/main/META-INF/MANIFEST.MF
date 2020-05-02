@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: log4j-core-2.13.2.jar log4j-api-2.13.2.jar commons-io-2.6.
+ jar
+Main-Class: ch.m4th1eu.flansupdater.Main
