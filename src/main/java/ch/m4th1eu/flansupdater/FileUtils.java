@@ -6,10 +6,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -53,7 +55,34 @@ public class FileUtils {
      * @return argument's value
      */
     public static String get(String argument, String content) {
-        Scanner scanner = new Scanner(content);
+        String str;
+        BufferedReader reader = new BufferedReader(new StringReader(content));
+        try {
+            while ((str = reader.readLine()) != null) {
+                if (argument.equals("Name")) {
+                    if (str.contains("Name") && !str.contains("ShortName")) {
+                        return str.replaceFirst(argument + " ", "");
+                    }
+                } else if (str.startsWith(argument)) {
+                    return str.replaceFirst(argument + " ", "");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //doesn't work neither
+        /*List<String> lines = new ArrayList<>();
+        try {
+            lines = IOUtils.readLines(new StringReader(content));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines.stream().filter(s -> s.startsWith(argument)).findFirst().map(s -> s.replaceFirst(argument + " ", "")).orElse("null");*/
+
+
+        //disabled because I think it skip the firstline
+        /*Scanner scanner = new Scanner(content);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
 
@@ -61,9 +90,9 @@ public class FileUtils {
                 return line.replaceFirst(argument + " ", "");
             }
         }
-        scanner.close();
+        scanner.close();*/
 
-        return "null";
+        return "not found";
     }
 
     /**
@@ -98,12 +127,16 @@ public class FileUtils {
      * @return file's content
      */
     public static String readFile(File file) {
+        if (!file.exists()) {
+            return "";
+        }
+
         try {
             StringBuilder fileData = new StringBuilder();
             BufferedReader reader = new BufferedReader(
-                    new FileReader(file.toString()));
+                    new InputStreamReader(new FileInputStream(file.toString()), StandardCharsets.UTF_8));
             char[] buf = new char[1024];
-            int numRead = 0;
+            int numRead;
             while ((numRead = reader.read(buf)) != -1) {
                 String readData = String.valueOf(buf, 0, numRead);
                 fileData.append(readData);
@@ -137,7 +170,7 @@ public class FileUtils {
             StringBuilder stringBuilder = new StringBuilder();
             langs.forEach(str -> stringBuilder.append(str).append("\n"));
 
-            FileWriter myWriter = new FileWriter(Main.LANG_NEWPATH + "en_US.lang");
+            Writer myWriter = new OutputStreamWriter(new FileOutputStream(Main.LANG_NEWPATH + "en_US.lang"), StandardCharsets.UTF_8);
             myWriter.write(stringBuilder.toString());
             myWriter.close();
             Logger.info("Successfully generated the new lang file.");
@@ -166,7 +199,7 @@ public class FileUtils {
 
     public static void createModels(String shortName, String icon) {
         //check if the models folder exists, if not we create it.
-        File modelsFolder = new File(Main.JSON_PATH);
+        File modelsFolder = new File(Main.JSON_NEWPATH);
         if (!modelsFolder.exists()) {
             boolean isCreated = modelsFolder.mkdirs();
             if (isCreated) {
@@ -179,14 +212,19 @@ public class FileUtils {
         String jsonString = "{\"parent\":\"builtin/generated\",\"textures\":{\"layer0\":\"flansmod:items/your_item_texture\"},\"display\":{\"thirdperson_lefthand\":{\"rotation\":[0,90,-35],\"translation\":[0,1.25,-2.5],\"scale\":[0.8,0.8,0.8]},\"thirdperson_righthand\":{\"rotation\":[0,90,-35],\"translation\":[0,1.25,-2.5],\"scale\":[0.8,0.8,0.8]},\"firstperson_lefthand\":{\"rotation\":[0,-45,25],\"translation\":[0,4,2],\"scale\":[0.8,0.8,0.8]},\"firstperson_righthand\":{\"rotation\":[0,-45,25],\"translation\":[0,4,2],\"scale\":[0.8,0.8,0.8]}}}";
         jsonString = jsonString.replaceFirst("your_item_texture", icon);
 
+        if (Paths.get(Main.JSON_PATH + shortName + ".json").toFile().exists()) {
+            jsonString = readFile(new File(Main.JSON_PATH + shortName + ".json"));
+        }
+
         try {
-            FileWriter myWriter = new FileWriter(Main.JSON_PATH + shortName + ".json");
+            Writer myWriter = new OutputStreamWriter(new FileOutputStream(Main.JSON_NEWPATH + shortName + ".json"), StandardCharsets.UTF_8);
             myWriter.write(jsonString);
             myWriter.close();
         } catch (IOException e) {
             Logger.error("Cannot create the json model file for : " + shortName);
             e.printStackTrace();
         }
+
     }
 
     public static void copyModels() {
@@ -197,6 +235,28 @@ public class FileUtils {
             Logger.error("Cannot copy models directory!");
             e.printStackTrace();
         }
+    }
+
+
+    public static void deleteTempsFolder() {
+        recursiveDelete(new File(Main.PACK_PATH));
+        recursiveDelete(new File(Main.NEWPACK_PATH));
+        Logger.info("Sucessfully deleted temporary directories.");
+    }
+
+
+    private static void recursiveDelete(File file) {
+        //to end the recursive loop
+        if (!file.exists())
+            return;
+
+        //if directory, go inside and call recursively
+        if (file.isDirectory()) {
+            //call recursively
+            Arrays.stream(file.listFiles()).forEach(FileUtils::recursiveDelete);
+        }
+        //call delete to delete files and empty directory
+        file.delete();
     }
 
     public static void createPackInfo() {
@@ -210,7 +270,7 @@ public class FileUtils {
         String jsonString = gson.toJson(jsonObject);
 
         try {
-            FileWriter myWriter = new FileWriter(Main.NEWPACK_PATH + "pack_info.mcmeta");
+            Writer myWriter = new OutputStreamWriter(new FileOutputStream(Main.NEWPACK_PATH + "pack_info.mcmeta"), StandardCharsets.UTF_8);
             myWriter.write(jsonString);
             myWriter.close();
             Logger.info("Successfully created the pack_info file.");

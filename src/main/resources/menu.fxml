@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane style="-fx-background-color: #303030;" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.m4th1eu.flansupdater.FrameController">
+    <Label layoutX="414.0" layoutY="357.0" text="Flans Updater V2 - Développé par M4TH1EU_" textFill="WHITE">
+        <font>
+            <Font size="11.0" fx:id="x3"/>
+        </font>
+    </Label>
+    <Button fx:id="bug" layoutX="182.0" layoutY="292.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="126.0"
+            style="-fx-background-color: transparent; -fx-border-color: white;" text="Signaler un bug"
+            textFill="WHITE"/>
+
+    <Button fx:id="idea" layoutX="333.0" layoutY="292.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="126.0"
+            style="-fx-background-color: transparent; -fx-border-color: white;" text="Une idée ?" textFill="WHITE"/>
+
+    <Separator layoutY="347.0" prefHeight="16.0" prefWidth="640.0"/>
+
+    <Button fx:id="convertir" layoutX="197.0" layoutY="200.0" mnemonicParsing="false" prefHeight="48.0"
+            prefWidth="252.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 2;"
+            text="Mettre à jour mon pack" textFill="WHITE">
+        <font>
+            <Font size="20.0"/>
+        </font>
+    </Button>
+    <Button fx:id="selectpack" layoutX="347.0" layoutY="147.0" mnemonicParsing="false" prefHeight="21.0"
+            prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white;" text="Choisir un pack"
+            textFill="WHITE"/>
+    <TextField fx:id="packname" layoutX="196.0" layoutY="147.0" prefHeight="27.0" prefWidth="149.0"
+               style="-fx-background-color: transparent; -fx-border-color: white; -fx-text-fill: white"/>
+    <Label layoutX="197.0" layoutY="127.0" text="Nom du pack" textFill="WHITE"/>
+    <ImageView fitHeight="118.0" fitWidth="583.0" layoutX="84.0" layoutY="-4.0" pickOnBounds="true"
+               preserveRatio="true">
+        <image>
+            <Image url="@logo_transparent.png"/>
+        </image>
+    </ImageView>
+</AnchorPane>

@@ -1,8 +1,7 @@
 package ch.m4th1eu.flansupdater;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,7 +33,7 @@ public class ArmorUtils {
         }
 
         try {
-            FileWriter myWriter = new FileWriter(NEWFILENAME);
+            Writer myWriter = new OutputStreamWriter(new FileOutputStream(NEWFILENAME), StandardCharsets.UTF_8);
             myWriter.write(processArmorFile(readFile(path.toFile())));
             myWriter.close();
         } catch (IOException e) {
